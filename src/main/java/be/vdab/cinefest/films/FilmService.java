@@ -7,7 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 class FilmService {
     private final FilmRepository filmRepository;
-    public FilmService(FilmRepository filmRepository) {
+
+    FilmService(FilmRepository filmRepository) {
         this.filmRepository = filmRepository;
     }
 

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 class FilmRepository {
     private final JdbcClient jdbcClient;
-    public FilmRepository(JdbcClient jdbcClient) {
+     FilmRepository(JdbcClient jdbcClient) {
         this.jdbcClient = jdbcClient;
     }
 
