@@ -34,4 +34,26 @@ class FilmControllerTest {
                         status().isOk(),
                         jsonPath("$").value(vrijePlaatsen));
     }
+    private long idVanTest1Film(){
+        return jdbcClient.sql("select id from films where titel = 'test1'")
+                .query(Long.class)
+                .single();
+    }
+    @Test
+    void findFilmByIdMetBestaandeIdWerkt() throws Exception{
+        var id = idVanTest1Film();
+        mockMvc.perform(get("/films/{id}", id))
+                .andExpectAll(
+                        status().isOk(),
+                        jsonPath("id").value(id),
+                        jsonPath("titel").value("test1"));
+    }
+    @Test
+    void findFilmByIdMetOnbestaandeThrowsNietGevondenException() throws Exception{
+        var id = Long.MAX_VALUE;
+        mockMvc.perform(get("/films/{id}", id))
+                .andExpect(
+                        status().isNotFound()
+                );
+    }
 }

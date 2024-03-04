@@ -3,6 +3,8 @@ package be.vdab.cinefest.films;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Transactional(readOnly = true)
 class FilmService {
@@ -14,6 +16,9 @@ class FilmService {
 
     long findTotaalVrijePlaatsen() {
         return filmRepository.findTotaalVrijePlaatsen();
+    }
+    Optional<Film> findFilmById(long id){
+        return  filmRepository.findFilmById(id);
     }
 
 
