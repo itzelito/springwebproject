@@ -16,9 +16,15 @@ class FilmController {
     long findTotaalVrijePlaatsen(){
         return filmService.findTotaalVrijePlaatsen();
     }
+    private record IdTitelJaarVrijePlaatsen (long id, String titel, int jaar, int vrijePlaatsen){
+        IdTitelJaarVrijePlaatsen(Film film){
+            this(film.getId(), film.getTitel(), film.getJaar(), film.getVrijePlaatsen());
+        }
+    }
     @GetMapping("films/{id}")
-    Film findFilmById(@PathVariable long id){
+    IdTitelJaarVrijePlaatsen findFilmById(@PathVariable long id){
         return filmService.findFilmById(id)
+                .map(film -> new IdTitelJaarVrijePlaatsen(film))
                 .orElseThrow(()->new FilmNietGevondenException(id));
     }
 }

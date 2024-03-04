@@ -6,10 +6,10 @@ class Film {
     private final long id;
     private final String titel;
     private final int jaar;
-    private final long vrijePlaatsen;
+    private final int vrijePlaatsen;
     private final BigDecimal aankoopprijs;
 
-    public Film(long id, String titel, int jaar, long vrijePlaatsen, BigDecimal aankoopprijs) {
+    public Film(long id, String titel, int jaar, int vrijePlaatsen, BigDecimal aankoopprijs) {
         this.id = id;
         this.titel = titel;
         this.jaar = jaar;
@@ -28,7 +28,7 @@ class Film {
         return jaar;
     }
 
-    public long getVrijePlaatsen() {
+    public int getVrijePlaatsen() {
         return vrijePlaatsen;
     }
 
