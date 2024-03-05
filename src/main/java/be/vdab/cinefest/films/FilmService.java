@@ -24,6 +24,9 @@ class FilmService {
     List<Film> findAll(){
         return filmRepository.findAll();
     }
+    List<Film> findByJaar(int jaar){
+        return filmRepository.findByJaar(jaar);
+    }
 
 
 

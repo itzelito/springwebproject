@@ -1,6 +1,7 @@
 package be.vdab.cinefest.films;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -65,6 +66,15 @@ class FilmControllerTest {
                         status().isOk(),
                         jsonPath("length()")
                                 .value(JdbcTestUtils.countRowsInTable(jdbcClient, FILMS_TABLE))
+                );
+    }
+    @Test
+    void findByJaarVindtHetzelfdeAantal() throws Exception{
+        mockMvc.perform(get("/films")
+                .param("jaar", "1998"))
+                .andExpectAll(
+                        status().isOk(),
+                        jsonPath("length()").value(JdbcTestUtils.countRowsInTableWhere(jdbcClient, FILMS_TABLE, "jaar = 1998"))
                 );
     }
 }
