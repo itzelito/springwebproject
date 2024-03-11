@@ -1,4 +1,7 @@
 package be.vdab.cinefest.films;
 
-record NieuweFilm(String titel, int jaar) {
+import jakarta.validation.constraints.*;
+
+record NieuweFilm(@NotBlank String titel, @NotNull @Positive int jaar) {
+
 }

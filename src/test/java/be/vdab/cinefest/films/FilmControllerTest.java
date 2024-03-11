@@ -1,6 +1,8 @@
 package be.vdab.cinefest.films;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -103,5 +105,14 @@ class FilmControllerTest {
         assertThat(JdbcTestUtils.countRowsInTableWhere(
                 jdbcClient, FILMS_TABLE, "titel= 'test3' and id=" + responseBody)).isOne();
 
+    }
+    @ParameterizedTest
+    @ValueSource(strings={"filmLegeTitel.json", "filmVerkeerdJaar.json","filmZonderJaar.json","filmZonderTitel.json"})
+    void createMetVerkeerdeDataGeefsBadRequest(String bestandsNaam) throws Exception{
+        var jsonData = Files.readString(TEST_RESOURCES.resolve(bestandsNaam));
+        mockMvc.perform(post("/films")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonData))
+                .andExpect(status().isBadRequest());
     }
 }
