@@ -27,6 +27,10 @@ class FilmService {
     List<Film> findByJaar(int jaar){
         return filmRepository.findByJaar(jaar);
     }
+    @Transactional
+    void deleteFilm(long id){
+        filmRepository.deleteFilm(id);
+    }
 
 
 
