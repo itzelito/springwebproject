@@ -1,6 +1,7 @@
 package be.vdab.cinefest.films;
 
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -65,6 +66,17 @@ class FilmRepository {
          jdbcClient.sql(sql)
                  .param(id)
                  .update(); 
+    }
+    long create(Film film){
+         var sql= """
+                 insert into films (titel, jaar, vrijePlaatsen, aankoopprijs)
+                 values (?, ?, ?, ?) 
+                 """;
+         var keyholder = new GeneratedKeyHolder();
+         jdbcClient.sql(sql)
+                 .params(film.getTitel(), film.getJaar(), film.getVrijePlaatsen(), film.getAankoopprijs())
+                 .update(keyholder);
+         return keyholder.getKey().longValue();
     }
 
 
