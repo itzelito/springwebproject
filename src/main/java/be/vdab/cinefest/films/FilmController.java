@@ -2,6 +2,8 @@ package be.vdab.cinefest.films;
 
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Stream;
@@ -47,6 +49,10 @@ class FilmController {
     @PostMapping("films")
     long create(@RequestBody @Valid NieuweFilm nieuweFilm){
         return filmService.create(nieuweFilm);
+    }
+    @PatchMapping("films/{id}/titel")
+    void updateTitel(@PathVariable long id, @RequestBody @NotBlank String titel){
+        filmService.updateTitel(id, titel);
     }
 
 }

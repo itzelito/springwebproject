@@ -3,6 +3,7 @@ package be.vdab.cinefest.films;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +14,7 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.print.attribute.standard.Media;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -115,4 +117,29 @@ class FilmControllerTest {
                 .content(jsonData))
                 .andExpect(status().isBadRequest());
     }
+    @Test
+    void patchWijzigtDeTitelVanDeFilm() throws Exception{
+        var id= idVanTest1Film();
+        mockMvc.perform(patch("/films/{id}/titel", id)
+                .contentType(MediaType.TEXT_PLAIN)
+                .content("gewijzigd"))
+                .andExpect(status().isOk());
+        assertThat(JdbcTestUtils.countRowsInTableWhere(
+                jdbcClient, FILMS_TABLE, "titel= 'gewijzigd' and id=" + id)).isOne();
+    }
+    @ParameterizedTest
+    @ValueSource(strings={"", " "})
+    void patchMetVerkeerdeTitelMislukt(String verkeerdeTitel) throws Exception{
+        mockMvc.perform(patch("/films/{id}/titel", idVanTest1Film())
+                .contentType(MediaType.TEXT_PLAIN)
+                .content(verkeerdeTitel))
+                .andExpect(status().isBadRequest());
+    }
+    @Test
+    void patchVanOnbestandeFilmMislukt() throws Exception{
+        mockMvc.perform(patch("/films/{id}/titel", Long.MAX_VALUE)
+                .contentType(MediaType.TEXT_PLAIN)
+                .content("gewijzigd")).andExpect(status().isNotFound());
+    }
+
 }
