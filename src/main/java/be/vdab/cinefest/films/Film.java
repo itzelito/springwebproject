@@ -6,7 +6,7 @@ class Film {
     private final long id;
     private final String titel;
     private final int jaar;
-    private final int vrijePlaatsen;
+    private int vrijePlaatsen;
     private final BigDecimal aankoopprijs;
 
     public Film(long id, String titel, int jaar, int vrijePlaatsen, BigDecimal aankoopprijs) {
@@ -34,5 +34,12 @@ class Film {
 
     public BigDecimal getAankoopprijs() {
         return aankoopprijs;
+    }
+
+    void reserveer(int plaatsen){
+        if(plaatsen>vrijePlaatsen){
+            throw new OnvoldoendeVrijePlaatsenException();
+        }
+        vrijePlaatsen-= plaatsen;
     }
 }

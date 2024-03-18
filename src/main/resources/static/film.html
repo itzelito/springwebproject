@@ -31,9 +31,19 @@
         <input id="nieuweTitel" required>
         </label>
         <button id="bewaar">Bewaar</button>
+        <label>Email adres:
+            <span id="emailAdresFout" class="fout" hidden>Verplicht</span>
+        <input id="emailAdres" required type = "email">
+        </label>
+        <label>Plaatsen:
+            <span id="plaatsenFout" class="fout" hidden>Verplicht</span>
+        <input id="plaatsen" required type="number" min="1"
+        </label>
+        <button id="reserveer">Reserveer</button>
     </dl>
 
 </div>
+<div id="conflict" class="fout" hidden></div>
 <div id="nietGevonden" class="fout" hidden>Film niet gevonden</div>
 <div id="storing" class="fout" hidden>Storing, contacteer helpdesk.</div>
 </body>
