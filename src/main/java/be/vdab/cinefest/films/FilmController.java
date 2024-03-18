@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.stream.Stream;
 
 @RestController
+@RequestMapping("films")
 class FilmController {
     private final FilmService filmService;
 
     FilmController(FilmService filmService) {
         this.filmService = filmService;
     }
-    @GetMapping("films/totaalvrijeplaatsen")
+    @GetMapping("totaalvrijeplaatsen")
     long findTotaalVrijePlaatsen(){
         return filmService.findTotaalVrijePlaatsen();
     }
@@ -24,37 +25,37 @@ class FilmController {
             this(film.getId(), film.getTitel(), film.getJaar(), film.getVrijePlaatsen());
         }
     }
-    @GetMapping("films/{id}")
+    @GetMapping("{id}")
     IdTitelJaarVrijePlaatsen findFilmById(@PathVariable long id){
         return filmService.findFilmById(id)
                 .map(film -> new IdTitelJaarVrijePlaatsen(film))
                 .orElseThrow(()->new FilmNietGevondenException(id));
     }
-    @GetMapping("films")
+    @GetMapping
     Stream<IdTitelJaarVrijePlaatsen> findAll(){
         return filmService.findAll()
                 .stream()
                 .map(film -> new IdTitelJaarVrijePlaatsen(film));
     }
-    @GetMapping(value ="films", params = "jaar")
+    @GetMapping(params = "jaar")
     Stream<IdTitelJaarVrijePlaatsen> findByJaar(int jaar){
         return filmService.findByJaar(jaar)
                 .stream()
                 .map(film-> new IdTitelJaarVrijePlaatsen(film));
     }
-    @DeleteMapping("films/{id}")
+    @DeleteMapping("{id}")
     void deleteFilm(@PathVariable long id){
         filmService.deleteFilm(id);
     }
-    @PostMapping("films")
+    @PostMapping
     long create(@RequestBody @Valid NieuweFilm nieuweFilm){
         return filmService.create(nieuweFilm);
     }
-    @PatchMapping("films/{id}/titel")
+    @PatchMapping("{id}/titel")
     void updateTitel(@PathVariable long id, @RequestBody @NotBlank String titel){
         filmService.updateTitel(id, titel);
     }
-    @PostMapping("films/{id}/reservaties")
+    @PostMapping("{id}/reservaties")
     long reserveer(@PathVariable long id, @RequestBody @Valid NieuweReservatie nieuweReservatie){
         return filmService.reserveer(id, nieuweReservatie);
     }

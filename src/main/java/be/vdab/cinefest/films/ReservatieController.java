@@ -1,11 +1,13 @@
 package be.vdab.cinefest.films;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("reservaties")
  class ReservatieController {
         private final ReservatieService reservatieService;
 
@@ -13,7 +15,7 @@ import java.util.List;
         this.reservatieService = reservatieService;
     }
 
-    @GetMapping(value = "reservaties", params = "emailAdres")
+    @GetMapping(params = "emailAdres")
     List<ReservatieMetFilm> findByEmailAdres(String emailAdres){
         return reservatieService.findByEmailAdres(emailAdres);
     }
